@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+-test document to show the functionality of the filesizefilter
+-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<script src="../../libs/angular.js"></script>
+		<script src="../../../angular-filters/src/filesizefilter.js"></script>
+		<link rel="stylesheet" href="../../css/bootstrap.css">
+		<script src="./filesizetestctrl.js"></script>
+	</head>
+	<body style="width:1300px">
+		<div class="container" ng-app='filesize-ctrl' style="width:1300px">
+
+				<table class="table table-bordered table-striped table-hover table-condensed" ng-controller="test-ctrl">
+						<thead>
+							<tr>
+								<td ng-non-bindable>Actual size<br><br>expression</td>
+								<td ng-non-bindable>default<br><br>{{size|filesize}}</td>
+								<td>Custom Value<br>
+									<label>prefix:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+									<input ng-trim="false" ng-model="prefix" type="text" placeholder="prefix">
+									<br>
+									<label>Precision:</label>
+									<input type="number" ng-model="precision">
+								</td>
+								<td ng-non-bindable>Prefix = k, <br>Precision = 3<br>{{size|filesize:' k':3}}</td>
+								<td ng-non-bindable>prefix = kiloByte, <br>Precision = 2<br>{{size|filesize:' kiloByte':2}}</td>
+								<td ng-non-bindable>prefix = G, <br>Precision=2<br>{{size|filesize:' G':5}}</td>
+								<td ng-non-bindable>prefix = gigaByte, <br>Precision=2<br>{{size|filesize:' gigaByte':2}}</td>
+
+
+							</tr>
+						</thead>
+
+						<tr ng-class-even="'alert alert-success'" ng-repeat="size in sizes">
+							<td>{{size}}</td>
+							<td>{{size|filesize}}</td>
+							<td>{{size|filesize:prefix:precision}}</td>
+							<td>{{size|filesize:' k':3}}</td>
+							<td>{{size|filesize:' kiloByte':2}}</td>
+							<td>{{size|filesize:' G':5}}</td>
+							<td>{{size|filesize:' gigaByte':2}}</td>
+						</tr>
+					</table>
+
+
+		</div>
+	</body>
+</html>

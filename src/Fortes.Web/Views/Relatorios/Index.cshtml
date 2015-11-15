@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Titulo = "Relatórios";
+}
+<header class="page-header">
+    <h1>@ViewBag.Titulo</h1>
+</header>
+<content ng-controller="relatoriosController">
+    <div id="formulario" class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-1">Período</label>
+            <div class="col-md-2">
+                <input class="form-control" ui-mask="99/99/9999" model-view-value="true" ng-model="filtroDataInicio" />
+            </div>
+            <label class="control-label col-md-1" style="width:10px; padding-left:0; padding-right:0;">à</label>
+            <div class="col-md-2">
+                <input class="form-control" ui-mask="99/99/9999" model-view-value="true" ng-model="filtroDataFim" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-1">Categoria</label>
+            <div class="col-md-5">
+                <select class="form-control" ng-options="categoria.Id as categoria.Nome for categoria in categorias" ng-model="filtroCategoria">
+                    <option value="">Selecione...</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-5">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="filtroAgrupamento" />
+                        Agrupar por categoria.
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-5">
+                <button class="btn btn-primary" ng-click="visualizar()">Visualizar</button>
+            </div>
+        </div>
+    </div>
+    <div id="relatorio" style="display:none">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-6 text-left">
+                    <button class="btn btn-sm btn-info" ng-click="imprimir();"><i class="glyphicon glyphicon-print"></i></button>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-sm btn-danger" ng-click="fechar()"><i class="glyphicon glyphicon-remove"></i></button>
+                </div>
+            </div>
+        </div>
+        <div id="detalhado" class="table-responsive" style="display:none">
+            <table id="tabDetalhado" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Valor</th>
+                        <th>Categoria</th>
+                        <th>Data</th>
+                        <th>Observação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="registro in relatorio">
+                        <td>{{registro.Tipo}}</td>
+                        <td>{{registro.Valor | number: 2}}</td>
+                        <td>{{registro.Categoria}}</td>
+                        <td>{{registro.Data | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{registro.Observacao}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">
+                            Total: <strong>{{valorTotal() | number:2}}</strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div id="agrupado" class="table-responsive" style="display:none">
+            <table id="tabAgrupado" class="table">
+                <tr>
+                    <td>
+                        <table data-ng-repeat="categoria in relatorio" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="5">
+                                        <h4> {{categoria.Categoria}}</h4>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Valor</th>
+                                    <th>Data</th>
+                                    <th>Observação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="registro in categoria.Detalhes">
+                                    <td>{{registro.Tipo}}</td>
+                                    <td>{{registro.Valor | number: 2}}</td>
+                                    <td>{{registro.Data | date: 'dd/MM/yyyy'}}</td>
+                                    <td>{{registro.Observacao}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        Total: <strong>{{valorTotalGrupo(categoria) | number:2}}</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            @*<table id="tabAgrupado" class="table">
+                <tr>
+                    <td>
+                        <table data-ng-repeat="categoria in relatorio" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="5">
+                                        <h4> {{categoria.Categoria}}</h4>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Valor</th>
+                                    <th>Data</th>
+                                    <th>Observação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="registro in categoria.Detalhes">
+                                    <td>{{registro.Tipo}}</td>
+                                    <td>{{registro.Valor | number: 2}}</td>
+                                    <td>{{registro.Data | date: 'dd/MM/yyyy'}}</td>
+                                    <td>{{registro.Observacao}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        Total: <strong>{{valorTotalGrupo(categoria) | number:2}}</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            </table>*@
+        </div>
+    </div>
+</content>

@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Titulo = "Despesas";
+}
+<header class="page-header">
+    <h1>@ViewBag.Titulo</h1>
+</header>
+<content ng-controller="despesasController">
+    <div class="navbar">
+        <div class="container-fluid">
+            <button class="btn btn-success navbar-btn" ng-click="open()">Adicionar</button>
+            <div class="navbar-form navbar-right" role="search">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        Data
+                    </div>
+                    <input class="form-control" ui-mask="99/99/9999" model-view-value="true" ng-model="filtroData" />
+                    <div class="input-group-addon">
+                        Categoria
+                    </div>
+                    <select class="form-control" ng-options="categoria.Id as categoria.Nome for categoria in categorias" ng-model="filtroCategoria">
+                        <option value="">Selecione...</option>
+                    </select>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" ng-click="load()"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Categoria</th>
+                    <th>Valor</th>
+                    <th>Observação</th>
+                    <th style="width:100px; text-align:center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="despesa in despesas">
+                    <td>{{despesa.Data | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{despesa.CategoriaNome}}</td>
+                    <td>{{despesa.Valor |number:2}}</td>
+                    <td>{{despesa.Observacao}}</td>
+                    <td style="text-align:center">
+                        <button class="btn btn-sm btn-warning" ng-click="open(despesa)"><i class="glyphicon glyphicon-edit"></i></button>
+                        <button class="btn btn-sm btn-danger" ng-click="delete(despesa)"><i class="glyphicon glyphicon-remove"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    @Html.Partial("_Form")
+</content>

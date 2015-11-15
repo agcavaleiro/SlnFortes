@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Titulo = "Categorias";
+}
+<header class="page-header">
+    <h1><i class="fa fa-television"></i> @ViewBag.Titulo</h1>
+</header>
+<content ng-controller="categoriasController">
+    <div class="navbar">
+        <div class="container-fluid">
+            <button class="btn btn-success navbar-btn" ng-click="open()">Adicionar</button>
+            <div class="navbar-form navbar-right" role="search">
+                <div class="input-group">
+                    <input class="form-control" placeholder="Pesquisar por" ng-model="searchValue" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" ng-click="load()"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th style="width:100px; text-align:center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="categoria in categorias">
+                    <td>{{categoria.Nome}}</td>
+                    <td style="text-align:center">
+                        <button class="btn btn-sm btn-warning" ng-click="open(categoria)"><i class="glyphicon glyphicon-edit"></i></button>
+                        <button class="btn btn-sm btn-danger" ng-click="delete(categoria)"><i class="glyphicon glyphicon-remove"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    @Html.Partial("_Form")
+</content>

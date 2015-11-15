@@ -1,0 +1,131 @@
+﻿@using Fortes.Web.Models
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Titulo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-touch-carousel/dist/css/bootstrap-touch-carousel.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/hammer.js/hammer.js"></script>
+    <script src="~/lib/bootstrap-touch-carousel/dist/js/bootstrap-touch-carousel.js"></script>
+    <script src="~/lib/bootbox/bootbox.js"></script>
+
+    <script src="~/lib/angular/angular.js"></script>
+    <script src="~/lib/angular-route/angular-route.js"></script>
+    <script src="~/lib/angular-resource/angular-resource.js"></script>
+
+    <script src="~/lib/angular-utils/dist/angular-utils.min.js"></script>
+
+    <script src="~/lib/angular-ui-mask/dist/mask.js"></script>
+
+    <script src="~/lib/angular-datetime/dist/datetime.js"></script>
+
+    <script src="~/lib/angular-input-masks/angular-input-masks-dependencies.js"></script>
+    <script src="~/lib/angular-input-masks/angular-input-masks.js"></script>
+
+    <script src="~/js/tableExport.js"></script>
+    <script src="~/js/jquery.base64.js"></script>
+
+    <script src="~/js/jspdf/libs/sprintf.js"></script>
+    <script src="~/js/jspdf/jspdf.js"></script>
+    <script src="~/js/jspdf/libs/base64.js"></script>
+
+    <script src="~/js/fortesApp.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</head>
+<body ng-app="fortesApp">
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-controller="Home" asp-action="Index" class="navbar-brand">Home</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-controller="Categorias" asp-action="Index">Categorias</a></li>
+                    <li><a asp-controller="Despesas" asp-action="Index">Despesas</a></li>
+                    <li><a asp-controller="Receitas" asp-action="Index">Receitas</a></li>
+                    <li><a asp-controller="Relatorios" asp-action="Index">Relatórios</a></li>
+                    @*<li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-controller="Despesas" asp-action="Relatorio">Despesas</a></li>
+                                <li><a asp-controller="Receitas" asp-action="Relatorio">Receitas</a></li>
+                            </ul>
+                        </li>*@
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main>
+        @if (TempData["$AlertMessage$"] != null)
+            {
+                AlertModel lAlertModel = (AlertModel)TempData["$AlertMessage$"];
+                string lDivAlerta = "";
+                switch (lAlertModel.Type)
+                {
+                    case AlertTypes.Warning:
+                        {
+                            lDivAlerta = "<div class=\"container alert alert-dismissible alert-warning\" role=\"alert\">";
+                            lDivAlerta += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
+                            break;
+                        }
+                    case AlertTypes.Error:
+                        {
+                            lDivAlerta = "<div class=\"container alert alert-dismissible alert-danger\" role=\"alert\">";
+                            lDivAlerta += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
+                            break;
+                        }
+                    case AlertTypes.Info:
+                        {
+                            lDivAlerta = "<div class=\"container alert alert-dismissible alert-info\" role=\"alert\">";
+                            lDivAlerta += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
+                            break;
+                        }
+                    case AlertTypes.Success:
+                        {
+                            lDivAlerta = "<div class=\"container alert alert-dismissible alert-success\" role=\"alert\">";
+                            lDivAlerta += "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
+                            break;
+                        }
+                }
+                lDivAlerta += lAlertModel.Message;
+                lDivAlerta += "</div>";
+                TempData.Remove("$AlertMessage$");
+            @Html.Raw(lDivAlerta);
+            }
+        <section class="container">
+            @RenderBody()
+        </section>
+    </main>
+    <footer class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <p class="text-center" style="margin-top:30px; margin-bottom:30px;">FORTES &copy; @DateTime.Now.Year <br /></p>
+        </div>
+    </footer>
+    <div id="loading" class="" style="display:none;">
+        <div class="modal-backdrop in"></div>
+        <div class="modal-loading">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <img src="~/images/loading.gif" />
+                        <h4>Processando...</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

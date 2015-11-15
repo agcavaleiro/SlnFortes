@@ -1,0 +1,28 @@
+{
+  "name": "angular-utils",
+  "version": "0.0.1",
+  "homepage": "https://github.com/faizanahemad/angular-utils",
+  "authors": [
+    "\"faizanahemad\" <\"fahemad3@gmail.com\">"
+  ],
+  "description": "Collection of Miscellaneous Utilities for Angularjs",
+  "main": "dist/angular-utils.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "angular",
+    "angularjs",
+    "angular-utils",
+    "javascript",
+    "library"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

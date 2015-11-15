@@ -1,0 +1,36 @@
+{
+  "name": "angular-utils",
+  "homepage": "https://github.com/faizanahemad/angular-utils",
+  "authors": [
+    "\"faizanahemad\" <\"fahemad3@gmail.com\">"
+  ],
+  "description": "Collection of Miscellaneous Utilities for Angularjs",
+  "main": "dist/angular-utils.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "angular",
+    "angularjs",
+    "angular-utils",
+    "javascript",
+    "library"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "d452776b08",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "d452776b0825f21a7527ee5c89775f3d021f399d"
+  },
+  "_source": "git://github.com/faizanahemad/angular-utils.git",
+  "_target": "*",
+  "_originalSource": "angular-utils"
+}
