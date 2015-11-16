@@ -1,5 +1,6 @@
 ﻿using Fortes.DAL;
 using Fortes.Models;
+using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.Configuration;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,21 @@ namespace Fortes.Testes
         protected string ConnectionString { get; private set; }
         public BaseTest()
         {
-           var builder = new ConfigurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.AddJsonFile("../Fortes.Web/config.json");
             var config = builder.Build();
             ConnectionString = config.Get<string>("Data:DefaultConnection:ConnectionString");
         }
 
+    }
+    public static class EnumerableExtensions
+    { 
+        public static TSource ObterPropriedadeJson<TSource>(this JsonResult json, string nomePropriedade)
+        {
+            var propertyInfo = json.Value.GetType().GetProperty(nomePropriedade);
+            var reflectedValue = (TSource)propertyInfo.GetValue(json.Value, null);
+            return reflectedValue;
+
+        }
     }
 }
