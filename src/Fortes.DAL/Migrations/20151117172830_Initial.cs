@@ -9,6 +9,17 @@ namespace Fortes.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Categoria",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Nome = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categoria", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
                 name: "Despesa",
                 columns: table => new
                 {
@@ -21,6 +32,11 @@ namespace Fortes.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Despesa", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Despesa_Categoria_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categoria",
+                        principalColumn: "Id");
                 });
             migrationBuilder.CreateTable(
                 name: "Receita",
@@ -35,37 +51,19 @@ namespace Fortes.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Receita", x => x.Id);
-                });
-            migrationBuilder.CreateTable(
-                name: "Categoria",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    DespesaId = table.Column<string>(nullable: true),
-                    Nome = table.Column<string>(nullable: false),
-                    ReceitaId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categoria", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categoria_Despesa_DespesaId",
-                        column: x => x.DespesaId,
-                        principalTable: "Despesa",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Categoria_Receita_ReceitaId",
-                        column: x => x.ReceitaId,
-                        principalTable: "Receita",
+                        name: "FK_Receita_Categoria_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "Categoria",
                         principalColumn: "Id");
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable("Categoria");
             migrationBuilder.DropTable("Despesa");
             migrationBuilder.DropTable("Receita");
+            migrationBuilder.DropTable("Categoria");
         }
     }
 }

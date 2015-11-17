@@ -20,12 +20,8 @@ namespace Fortes.DAL.Migrations
                 {
                     b.Property<string>("Id");
 
-                    b.Property<string>("DespesaId");
-
                     b.Property<string>("Nome")
                         .IsRequired();
-
-                    b.Property<string>("ReceitaId");
 
                     b.HasKey("Id");
                 });
@@ -60,15 +56,18 @@ namespace Fortes.DAL.Migrations
                     b.HasKey("Id");
                 });
 
-            modelBuilder.Entity("Fortes.Models.Categoria", b =>
+            modelBuilder.Entity("Fortes.Models.Despesa", b =>
                 {
-                    b.HasOne("Fortes.Models.Despesa")
+                    b.HasOne("Fortes.Models.Categoria")
                         .WithMany()
-                        .ForeignKey("DespesaId");
+                        .ForeignKey("CategoriaId");
+                });
 
-                    b.HasOne("Fortes.Models.Receita")
+            modelBuilder.Entity("Fortes.Models.Receita", b =>
+                {
+                    b.HasOne("Fortes.Models.Categoria")
                         .WithMany()
-                        .ForeignKey("ReceitaId");
+                        .ForeignKey("CategoriaId");
                 });
         }
     }

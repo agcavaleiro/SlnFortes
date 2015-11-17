@@ -13,30 +13,43 @@ using Microsoft.Framework.Logging;
 
 namespace Fortes.Testes
 {
-    //public class Startup
-    //{
-    //    public static Microsoft.Framework.ConfigurationModel.IConfiguration Configuration { get; set; }
-    //    //public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
-    //    //{
-    //    //    var builder = new ConfigurationBuilder()
-    //    //        .SetBasePath(appEnv.ApplicationBasePath)
-    //    //        .AddJsonFile("config.json")
-    //    //        .AddEnvironmentVariables();
-    //    //    Configuration = builder.Build();
-    //    //}
-    //    //public void ConfigureServices(IServiceCollection services)
-    //    //{
-    //    //    services.AddEntityFramework()
-    //    //        .AddSqlServer()
-    //    //        .AddDbContext<DataContext>(options =>
-    //    //        {
-    //    //            options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]);
-    //    //        });
-    //    //}
-    //    public void Configure(IApplicationBuilder app)
-    //    {
-    //        var config = new Configuration();
-    //        config.Get("config.json");
-    //    }
-    //}
+    public class Startup
+    {
+
+        public static IConfiguration Configuration { get; set; }
+        public Startup(IApplicationEnvironment appEnv)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(appEnv.ApplicationBasePath)
+                .AddJsonFile("config.json")
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc();
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<DataContext>(options =>
+                {
+                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]);
+                });
+            services.AddScoped<ICategoriaDAL, CategoriaDAL>();
+            services.AddScoped<IDespesaDAL, DespesaDAL>();
+            services.AddScoped<IReceitaDAL, ReceitaDAL>();
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+
+            app.UseStaticFiles();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+        }
+    }
 }
